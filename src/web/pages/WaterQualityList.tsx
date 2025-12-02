@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { waterQualityApi, aquariumApi } from '../../shared/api';
-import { WATER_QUALITY_TEST_TYPES } from '../../shared/utils/constants';
+import { WATER_QUALITY_TEST_TYPES, getTodayDate } from '../../shared/utils/constants';
 import type { WaterQualityRecord, Aquarium } from '../../shared/types';
 import './shared.css';
 
@@ -12,7 +12,7 @@ export function WaterQualityList() {
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     testType: 'NH3+NH4' as const,
-    testDate: '',
+    testDate: getTodayDate(),
     value: '',
     notes: '',
     aquariumId: '',
@@ -52,7 +52,7 @@ export function WaterQualityList() {
       setShowForm(false);
       setFormData({
         testType: 'NH3+NH4',
-        testDate: '',
+        testDate: getTodayDate(),
         value: '',
         notes: '',
         aquariumId: '',

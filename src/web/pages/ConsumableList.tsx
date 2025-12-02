@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { consumableApi, aquariumApi } from '../../shared/api';
-import { CONSUMABLE_TAGS, CONSUMABLE_STATUSES } from '../../shared/utils/constants';
+import { CONSUMABLE_TAGS, CONSUMABLE_STATUSES, getTodayDate } from '../../shared/utils/constants';
 import type { Consumable, Aquarium } from '../../shared/types';
 import './shared.css';
 
@@ -16,7 +16,7 @@ export function ConsumableList() {
     quantity: '',
     price: '',
     notes: '',
-    purchaseDate: '',
+    purchaseDate: getTodayDate(),
     expiryDate: '',
     aquariumId: '',
   });
@@ -62,7 +62,7 @@ export function ConsumableList() {
         quantity: '',
         price: '',
         notes: '',
-        purchaseDate: '',
+        purchaseDate: getTodayDate(),
         expiryDate: '',
         aquariumId: '',
       });

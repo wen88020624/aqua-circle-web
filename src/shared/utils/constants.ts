@@ -1,3 +1,12 @@
+// 工具函數：取得今天的日期（格式：YYYY-MM-DD）
+export function getTodayDate(): string {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
 // 常數定義
 export const AQUARIUM_STATUSES: Array<'開缸' | '穩定' | '治療' | '閒置'> = [
   '開缸',

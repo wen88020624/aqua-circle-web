@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { feedingApi, consumableApi, aquariumApi } from '../../shared/api';
+import { getTodayDate } from '../../shared/utils/constants';
 import type { FeedingRecord, Aquarium, Consumable } from '../../shared/types';
 import './shared.css';
 
@@ -11,7 +12,7 @@ export function FeedingList() {
   const [error, setError] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
-    date: '',
+    date: getTodayDate(),
     consumableId: '',
     notes: '',
     aquariumId: '',
@@ -51,7 +52,7 @@ export function FeedingList() {
       });
       setShowForm(false);
       setFormData({
-        date: '',
+        date: getTodayDate(),
         consumableId: '',
         notes: '',
         aquariumId: '',
@@ -150,11 +151,12 @@ export function FeedingList() {
           <tbody>
             {feedings.map(feed => {
               const aquarium = aquariums.find(aq => aq.id === feed.aquariumId);
+              const consumable = feedConsumables.find(c => c.id === feed.consumableId);
               return (
                 <tr key={feed.id}>
                   <td>{feed.date}</td>
                   <td>{aquarium?.name || '-'}</td>
-                  <td>{feed.consumableName || '-'}</td>
+                  <td>{consumable?.name || '-'}</td>
                   <td>{feed.notes || '-'}</td>
                   <td>
                     <button

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { medicationApi, aquariumApi } from '../../shared/api';
-import { MEDICATION_TAGS } from '../../shared/utils/constants';
+import { MEDICATION_TAGS, getTodayDate } from '../../shared/utils/constants';
 import type { MedicationRecord, Aquarium } from '../../shared/types';
 import './shared.css';
 
@@ -14,7 +14,7 @@ export function MedicationList() {
     medicationName: '',
     tag: '抗生素' as const,
     dosage: '',
-    date: '',
+    date: getTodayDate(),
     notes: '',
     aquariumId: '',
   });
@@ -56,7 +56,7 @@ export function MedicationList() {
         medicationName: '',
         tag: '抗生素',
         dosage: '',
-        date: '',
+        date: getTodayDate(),
         notes: '',
         aquariumId: '',
       });

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { equipmentApi, aquariumApi } from '../../shared/api';
-import { EQUIPMENT_TAGS, EQUIPMENT_STATUSES } from '../../shared/utils/constants';
+import { EQUIPMENT_TAGS, EQUIPMENT_STATUSES, getTodayDate } from '../../shared/utils/constants';
 import type { Equipment, Aquarium } from '../../shared/types';
 import './shared.css';
 
@@ -16,7 +16,7 @@ export function EquipmentList() {
     status: '使用中' as const,
     price: '',
     notes: '',
-    purchaseDate: '',
+    purchaseDate: getTodayDate(),
     aquariumId: '',
   });
 
@@ -60,7 +60,7 @@ export function EquipmentList() {
         status: '使用中',
         price: '',
         notes: '',
-        purchaseDate: '',
+        purchaseDate: getTodayDate(),
         aquariumId: '',
       });
       loadData();

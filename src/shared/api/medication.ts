@@ -1,86 +1,41 @@
-// 下藥記錄 API（Mock）
-import { mockMedicationRecords } from '../mocks/medications';
+// 下藥記錄 API（真實 API）
+import { apiRequest } from './client';
 import type { MedicationRecord, CreateMedicationRecordDto, UpdateMedicationRecordDto } from '../types';
-
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
-let medicationRecords = [...mockMedicationRecords];
-let nextId = Math.max(...medicationRecords.map(m => m.id), 0) + 1;
 
 export const medicationApi = {
   // 取得所有下藥記錄
   findAll: async (): Promise<MedicationRecord[]> => {
-    await delay(300);
-    return [...medicationRecords];
+    return apiRequest<MedicationRecord[]>('/medication-records');
   },
 
-  // 根據魚缸 ID 取得下藥記錄
+  // 根據魚缸 ID 取得下藥記錄（前端過濾）
   findByAquariumId: async (aquariumId: number): Promise<MedicationRecord[]> => {
-    await delay(300);
-    return medicationRecords.filter(m => m.aquariumId === aquariumId);
+    const all = await apiRequest<MedicationRecord[]>('/medication-records');
+    return all.filter(m => m.aquariumId === aquariumId);
   },
 
   // 建立新下藥記錄
   create: async (data: CreateMedicationRecordDto): Promise<MedicationRecord> => {
-    await delay(300);
-    
-    // 驗證
-    if (!data.medicationName || data.medicationName.trim() === '') {
-      throw new Error('下藥記錄的下藥名稱不可為空');
-    }
-    if (!data.tag) {
-      throw new Error('下藥記錄的tag不可為空');
-    }
-    if (data.dosage === undefined || data.dosage === null) {
-      throw new Error('下藥記錄的下藥的量不可為空');
-    }
-    if (!data.aquariumId) {
-      throw new Error('下藥記錄的所屬魚缸不可為空');
-    }
-    
-    const newRecord: MedicationRecord = {
-      id: nextId++,
-      ...data,
-    };
-    medicationRecords.push(newRecord);
-    return newRecord;
+    return apiRequest<MedicationRecord>('/medication-records', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
   },
 
   // 更新下藥記錄
   update: async (data: UpdateMedicationRecordDto): Promise<MedicationRecord> => {
-    await delay(300);
-    
-    const index = medicationRecords.findIndex(m => m.id === data.id);
-    if (index === -1) {
-      throw new Error('下藥記錄不存在');
-    }
-    
-    // 驗證
-    if (data.medicationName !== undefined && data.medicationName.trim() === '') {
-      throw new Error('下藥記錄的下藥名稱不可為空');
-    }
-    if (data.tag !== undefined && !data.tag) {
-      throw new Error('下藥記錄的tag不可為空');
-    }
-    if (data.dosage !== undefined && data.dosage === null) {
-      throw new Error('下藥記錄的下藥的量不可為空');
-    }
-    if (data.aquariumId !== undefined && !data.aquariumId) {
-      throw new Error('下藥記錄的所屬魚缸不可為空');
-    }
-    
-    medicationRecords[index] = { ...medicationRecords[index], ...data };
-    return medicationRecords[index];
+    const { id, ...updateData } = data;
+    return apiRequest<MedicationRecord>(`/medication-records/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(updateData),
+    });
   },
 
   // 刪除下藥記錄
   remove: async (id: number): Promise<void> => {
-    await delay(300);
-    const index = medicationRecords.findIndex(m => m.id === id);
-    if (index === -1) {
-      throw new Error('下藥記錄不存在');
-    }
-    medicationRecords.splice(index, 1);
+    await apiRequest<void>(`/medication-records/${id}`, {
+      method: 'DELETE',
+    });
   },
 };
 

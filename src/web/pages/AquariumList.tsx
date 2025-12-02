@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { aquariumApi } from '../../shared/api';
+import { getTodayDate } from '../../shared/utils/constants';
 import type { Aquarium } from '../../shared/types';
 import './AquariumList.css';
 
@@ -14,7 +15,7 @@ export function AquariumList() {
     width: '',
     height: '',
     status: '開缸' as const,
-    setupDate: '',
+    setupDate: getTodayDate(),
     notes: '',
   });
 
@@ -54,7 +55,7 @@ export function AquariumList() {
         width: '',
         height: '',
         status: '開缸',
-        setupDate: '',
+        setupDate: getTodayDate(),
         notes: '',
       });
       loadAquariums();

@@ -1,87 +1,41 @@
-// 生物 API（Mock）
-import { mockOrganisms } from '../mocks/organisms';
+// 生物 API（真實 API）
+import { apiRequest } from './client';
 import type { Organism, CreateOrganismDto, UpdateOrganismDto } from '../types';
-
-// 模擬 API 延遲
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
-let organisms = [...mockOrganisms];
-let nextId = Math.max(...organisms.map(o => o.id), 0) + 1;
 
 export const organismApi = {
   // 取得所有生物
   findAll: async (): Promise<Organism[]> => {
-    await delay(300);
-    return [...organisms];
+    return apiRequest<Organism[]>('/organisms');
   },
 
-  // 根據魚缸 ID 取得生物
+  // 根據魚缸 ID 取得生物（前端過濾）
   findByAquariumId: async (aquariumId: number): Promise<Organism[]> => {
-    await delay(300);
-    return organisms.filter(o => o.aquariumId === aquariumId);
+    const all = await apiRequest<Organism[]>('/organisms');
+    return all.filter(o => o.aquariumId === aquariumId);
   },
 
   // 建立新生物
   create: async (data: CreateOrganismDto): Promise<Organism> => {
-    await delay(300);
-    
-    // 驗證
-    if (!data.name || data.name.trim() === '') {
-      throw new Error('生物的名稱不可為空');
-    }
-    if (!data.tag) {
-      throw new Error('生物的tag不可為空');
-    }
-    if (data.price < 0) {
-      throw new Error('生物的金額必須 >= 0');
-    }
-    if (data.length !== undefined && data.length < 0) {
-      throw new Error('生物的長度必須 >= 0');
-    }
-    
-    const newOrganism: Organism = {
-      id: nextId++,
-      ...data,
-    };
-    organisms.push(newOrganism);
-    return newOrganism;
+    return apiRequest<Organism>('/organisms', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
   },
 
   // 更新生物
   update: async (data: UpdateOrganismDto): Promise<Organism> => {
-    await delay(300);
-    
-    const index = organisms.findIndex(o => o.id === data.id);
-    if (index === -1) {
-      throw new Error('生物不存在');
-    }
-    
-    // 驗證
-    if (data.name !== undefined && data.name.trim() === '') {
-      throw new Error('生物的名稱不可為空');
-    }
-    if (data.tag !== undefined && !data.tag) {
-      throw new Error('生物的tag不可為空');
-    }
-    if (data.price !== undefined && data.price < 0) {
-      throw new Error('生物的金額必須 >= 0');
-    }
-    if (data.length !== undefined && data.length < 0) {
-      throw new Error('生物的長度必須 >= 0');
-    }
-    
-    organisms[index] = { ...organisms[index], ...data };
-    return organisms[index];
+    const { id, ...updateData } = data;
+    return apiRequest<Organism>(`/organisms/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(updateData),
+    });
   },
 
   // 刪除生物
   remove: async (id: number): Promise<void> => {
-    await delay(300);
-    const index = organisms.findIndex(o => o.id === id);
-    if (index === -1) {
-      throw new Error('生物不存在');
-    }
-    organisms.splice(index, 1);
+    await apiRequest<void>(`/organisms/${id}`, {
+      method: 'DELETE',
+    });
   },
 };
 

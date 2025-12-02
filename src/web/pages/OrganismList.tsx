@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { organismApi, aquariumApi } from '../../shared/api';
-import { ORGANISM_TAGS, HEALTH_STATUSES, GENDERS } from '../../shared/utils/constants';
+import { ORGANISM_TAGS, HEALTH_STATUSES, GENDERS, getTodayDate } from '../../shared/utils/constants';
 import type { Organism, Aquarium } from '../../shared/types';
 import './shared.css';
 
@@ -13,7 +13,7 @@ export function OrganismList() {
   const [formData, setFormData] = useState({
     name: '',
     tag: '上層魚' as const,
-    purchaseDate: '',
+    purchaseDate: getTodayDate(),
     price: '',
     healthStatus: '',
     gender: '',
@@ -61,7 +61,7 @@ export function OrganismList() {
       setFormData({
         name: '',
         tag: '上層魚',
-        purchaseDate: '',
+        purchaseDate: getTodayDate(),
         price: '',
         healthStatus: '',
         gender: '',

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { waterChangeApi, aquariumApi } from '../../shared/api';
+import { getTodayDate } from '../../shared/utils/constants';
 import type { WaterChangeRecord, Aquarium } from '../../shared/types';
 import './shared.css';
 
@@ -10,7 +11,7 @@ export function WaterChangeList() {
   const [error, setError] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
-    date: '',
+    date: getTodayDate(),
     waterChangeRatio: '',
     notes: '',
     aquariumId: '',
@@ -55,7 +56,7 @@ export function WaterChangeList() {
       });
       setShowForm(false);
       setFormData({
-        date: '',
+        date: getTodayDate(),
         waterChangeRatio: '',
         notes: '',
         aquariumId: '',
