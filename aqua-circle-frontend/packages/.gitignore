@@ -1,0 +1,27 @@
+# Packages 共用代碼的 gitignore
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+pnpm-lock.yaml
+
+# TypeScript 編譯產物
+dist/
+*.tsbuildinfo
+
+# 環境變數
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 系統文件
+.DS_Store
+Thumbs.db
+

@@ -1,0 +1,63 @@
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+pnpm-lock.yaml
+
+# Expo
+.expo/
+dist/
+web-build/
+
+# 開發工具
+.DS_Store
+*.log
+*.cache
+.cache/
+
+# 環境變數
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 系統文件
+Thumbs.db
+Desktop.ini
+
+# 臨時文件
+*.tmp
+*.temp
+tmp/
+temp/
+
+# WSL/Windows 特定文件（臨時）
+*.ps1
+*WINDOWS*
+*WSL*
+start-*.sh
+find-*.sh
+QR_CODE_URL.txt
+CONNECTION_GUIDE.md
+EXPO_GO_CONNECTION.md
+TROUBLESHOOTING.md
+
+# TypeScript
+*.tsbuildinfo
+
+# 建置輸出
+build/
+dist/
+out/
+
+# Packages 建置輸出
+packages/*/dist/
+packages/*/node_modules/
+
